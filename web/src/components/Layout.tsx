@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 import styles from './Layout.module.css';
+import Button from '@/components/Button';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -10,6 +12,19 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, logout, loading } = useAuth();
+
+  // Login ve register sayfalarında layout gösterme
+  if (pathname === '/login' || pathname === '/register') {
+    return <>{children}</>;
+  }
+
+  // Kullanıcı yoksa ve loading değilse login'e yönlendir
+  if (!loading && !user) {
+    router.push('/login');
+    return null;
+  }
 
   const navItems = [
     { href: '/', label: 'Dashboard', icon: '📊' },
@@ -20,11 +35,41 @@ export default function Layout({ children }: LayoutProps) {
     { href: '/teachers', label: 'Öğretmenler', icon: '👨‍🏫' },
   ];
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.push('/login');
+    } catch (error) {
+      console.error('Çıkış yapılamadı:', error);
+    }
+  };
+
+  const getRoleLabel = (role?: string) => {
+    switch (role) {
+      case 'admin':
+        return 'Kurum Sahibi';
+      case 'teacher':
+        return 'Öğretmen';
+      case 'student':
+        return 'Öğrenci';
+      default:
+        return 'Kullanıcı';
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className={styles.loading}>
+        <p>Yükleniyor...</p>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <aside className={styles.sidebar}>
         <div className={styles.logo}>
-          <h1>🎓 Deneme Sonucum</h1>
+          <h1>🎯 BaşarıYORUM</h1>
         </div>
         <nav className={styles.nav}>
           {navItems.map((item) => (
@@ -41,7 +86,18 @@ export default function Layout({ children }: LayoutProps) {
           ))}
         </nav>
         <div className={styles.footer}>
-          <p>Kurum: Örnek Kurum</p>
+          <div className={styles.userInfo}>
+            <p className={styles.userName}>{user?.name || user?.email}</p>
+            <p className={styles.userRole}>{getRoleLabel(user?.role)}</p>
+          </div>
+          <Button
+            onClick={handleLogout}
+            variant="secondary"
+            size="sm"
+            className={styles.logoutButton}
+          >
+            Çıkış Yap
+          </Button>
         </div>
       </aside>
       <main className={styles.main}>

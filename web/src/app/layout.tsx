@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { AuthProvider } from '@/contexts/AuthContext'
 import Layout from '@/components/Layout'
 
 export const metadata: Metadata = {
-  title: 'Deneme Sonucum',
+  title: 'BaşarıYORUM',
   description: 'Kurum bazlı deneme sınavı sonuç takip sistemi',
 }
 
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <body>
-        <Layout>{children}</Layout>
+        <AuthProvider>
+          <Layout>{children}</Layout>
+        </AuthProvider>
       </body>
     </html>
   )

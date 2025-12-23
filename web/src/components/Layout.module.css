@@ -64,6 +64,45 @@
   border-top: 1px solid var(--border);
   font-size: 0.875rem;
   color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.userName {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.userRole {
+  color: var(--text-secondary);
+  margin: 0;
+  font-size: 0.75rem;
+}
+
+.logoutButton {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
 }
 
 .main {
