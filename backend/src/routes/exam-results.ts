@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { examResultService } from '../services/firestore.service';
 import { teacherService } from '../services/firestore.service';
-import { TeacherRole } from '../types';
+import { TeacherRole, InstitutionParams, InstitutionWithIdParams } from '../types';
 
 const router = Router({ mergeParams: true });
 
@@ -9,7 +9,7 @@ const router = Router({ mergeParams: true });
 // Query params: ?subjects=Matematik,Türkçe&studentId=xxx&teacherId=xxx
 router.get('/', async (req, res, next) => {
   try {
-    const { institutionId } = req.params;
+    const { institutionId } = req.params as unknown as InstitutionParams;
     const { subjects, studentId, teacherId } = req.query;
     
     // Teacher bilgisini al (teacherId varsa)
@@ -51,7 +51,7 @@ router.get('/', async (req, res, next) => {
 // GET /v1/institutions/:institutionId/exam-results/:id
 router.get('/:id', async (req, res, next) => {
   try {
-    const { institutionId, id } = req.params;
+    const { institutionId, id } = req.params as unknown as InstitutionWithIdParams;
     const result = await examResultService.get(institutionId, id);
     
     if (!result) {

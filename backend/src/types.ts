@@ -1,4 +1,5 @@
 // Geçici type definitions (shared package çalışana kadar)
+import { Request } from 'express';
 
 export interface Institution {
   id: string;
@@ -75,5 +76,56 @@ export interface ExamResultFilter {
   examDateFrom?: Date;
   examDateTo?: Date;
   teacherId?: string;
+}
+
+// Express Request type extensions
+export interface InstitutionParams {
+  institutionId: string;
+}
+
+export interface InstitutionWithIdParams extends InstitutionParams {
+  id: string;
+}
+
+export interface AuthenticatedRequest extends Request {
+  user?: {
+    institutionId: string;
+    userId?: string;
+    role?: string;
+  };
+}
+
+// Request body interfaces
+export interface CreateInstitutionBody {
+  name: string;
+  adminId: string;
+}
+
+export interface CreateTeacherBody {
+  name: string;
+  email: string;
+  role: TeacherRole;
+  assignedSubjects?: string[];
+}
+
+export interface UpdateTeacherBody {
+  name?: string;
+  email?: string;
+  role?: TeacherRole;
+  assignedSubjects?: string[];
+}
+
+export interface CreateExamTemplateBody {
+  name: string;
+  mappings: ExcelColumnMapping[];
+}
+
+export interface UpdateExamTemplateBody {
+  name?: string;
+  mappings?: ExcelColumnMapping[];
+}
+
+export interface BulkUploadBody {
+  templateId?: string;
 }
 

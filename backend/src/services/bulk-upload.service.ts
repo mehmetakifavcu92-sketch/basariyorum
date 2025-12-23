@@ -266,9 +266,6 @@ class BulkUploadService {
     }
     return index - 1;
   }
-  
-  // Geçici olarak işlenen öğrencileri takip etmek için (duplicate kontrolü)
-  private static students: Map<string, Student> = new Map();
 }
 
 export const bulkUploadService = new BulkUploadService();

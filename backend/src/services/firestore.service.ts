@@ -1,4 +1,5 @@
 import { db } from '../config/firebase';
+import admin from 'firebase-admin';
 import { 
   Institution, 
   Teacher, 
@@ -7,6 +8,8 @@ import {
   ExcelTemplate,
   ExamResultFilter
 } from '../types';
+
+type QueryDocumentSnapshot = admin.firestore.QueryDocumentSnapshot;
 
 // Collection referansları
 const collections = {
@@ -84,7 +87,7 @@ export const teacherService = {
   async getAll(institutionId: string): Promise<Teacher[]> {
     try {
       const snapshot = await collections.teachers(institutionId).get();
-      return snapshot.docs.map(doc => ({
+      return snapshot.docs.map((doc: QueryDocumentSnapshot) => ({
         id: doc.id,
         ...convertTimestamps(doc.data()),
       } as Teacher));
@@ -168,7 +171,7 @@ export const studentService = {
   async getAll(institutionId: string): Promise<Student[]> {
     try {
       const snapshot = await collections.students(institutionId).get();
-      return snapshot.docs.map(doc => ({
+      return snapshot.docs.map((doc: QueryDocumentSnapshot) => ({
         id: doc.id,
         ...convertTimestamps(doc.data()),
       } as Student));
@@ -258,22 +261,22 @@ export const examResultService = {
     }
   ): Promise<ExamResult[]> {
     try {
-      let query: FirebaseFirestore.Query = collections.examResults(institutionId);
+      let query: admin.firestore.Query = collections.examResults(institutionId);
       
       if (filters?.studentId) {
         query = query.where('studentId', '==', filters.studentId);
       }
       
       const snapshot = await query.get();
-      let results = snapshot.docs.map(doc => ({
+      let results = snapshot.docs.map((doc: QueryDocumentSnapshot) => ({
         id: doc.id,
         ...convertTimestamps(doc.data()),
       } as ExamResult));
       
       // Subject filtreleme (client-side, çünkü array-contains karmaşık)
       if (filters?.subjects && filters.subjects.length > 0) {
-        results = results.filter(result => 
-          result.scores && result.scores.some(score => 
+        results = results.filter((result: ExamResult) => 
+          result.scores && result.scores.some((score: { subject: string; score: number }) => 
             filters.subjects!.includes(score.subject)
           )
         );
@@ -359,7 +362,7 @@ export const examTemplateService = {
   async getAll(institutionId: string): Promise<ExcelTemplate[]> {
     try {
       const snapshot = await collections.examTemplates(institutionId).get();
-      return snapshot.docs.map(doc => ({
+      return snapshot.docs.map((doc: QueryDocumentSnapshot) => ({
         id: doc.id,
         ...convertTimestamps(doc.data()),
       } as ExcelTemplate));

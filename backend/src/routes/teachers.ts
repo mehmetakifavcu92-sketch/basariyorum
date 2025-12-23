@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import { teacherService } from '../services/firestore.service';
+import { InstitutionParams, InstitutionWithIdParams, CreateTeacherBody, UpdateTeacherBody } from '../types';
 
 const router = Router({ mergeParams: true });
 
 // GET /v1/institutions/:institutionId/teachers
 router.get('/', async (req, res, next) => {
   try {
-    const { institutionId } = req.params;
+    const { institutionId } = req.params as unknown as InstitutionParams;
     const teachers = await teacherService.getAll(institutionId);
     res.json({ success: true, data: teachers });
   } catch (error) {
@@ -17,7 +18,7 @@ router.get('/', async (req, res, next) => {
 // GET /v1/institutions/:institutionId/teachers/:id
 router.get('/:id', async (req, res, next) => {
   try {
-    const { institutionId, id } = req.params;
+    const { institutionId, id } = req.params as unknown as InstitutionWithIdParams;
     const teacher = await teacherService.get(institutionId, id);
     
     if (!teacher) {
@@ -36,8 +37,8 @@ router.get('/:id', async (req, res, next) => {
 // POST /v1/institutions/:institutionId/teachers
 router.post('/', async (req, res, next) => {
   try {
-    const { institutionId } = req.params;
-    const { name, email, role, assignedSubjects } = req.body;
+    const { institutionId } = req.params as unknown as InstitutionParams;
+    const { name, email, role, assignedSubjects } = req.body as CreateTeacherBody;
     
     if (!name || !email || !role) {
       return res.status(400).json({ 
@@ -62,8 +63,8 @@ router.post('/', async (req, res, next) => {
 // PUT /v1/institutions/:institutionId/teachers/:id
 router.put('/:id', async (req, res, next) => {
   try {
-    const { institutionId, id } = req.params;
-    const { name, email, role, assignedSubjects } = req.body;
+    const { institutionId, id } = req.params as unknown as InstitutionWithIdParams;
+    const { name, email, role, assignedSubjects } = req.body as UpdateTeacherBody;
     
     const teacher = await teacherService.update(institutionId, id, {
       name,
@@ -81,7 +82,7 @@ router.put('/:id', async (req, res, next) => {
 // DELETE /v1/institutions/:institutionId/teachers/:id
 router.delete('/:id', async (req, res, next) => {
   try {
-    const { institutionId, id } = req.params;
+    const { institutionId, id } = req.params as unknown as InstitutionWithIdParams;
     await teacherService.delete(institutionId, id);
     res.json({ success: true, message: 'Öğretmen silindi' });
   } catch (error) {

@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import { institutionService } from '../services/firestore.service';
+import { CreateInstitutionBody } from '../types';
 
 const router = Router();
 
 // GET /v1/institutions/:id
 router.get('/:id', async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { id } = req.params as { id: string };
     const institution = await institutionService.get(id);
     
     if (!institution) {
@@ -25,7 +26,7 @@ router.get('/:id', async (req, res, next) => {
 // POST /v1/institutions
 router.post('/', async (req, res, next) => {
   try {
-    const { name, adminId } = req.body;
+    const { name, adminId } = req.body as CreateInstitutionBody;
     
     if (!name || !adminId) {
       return res.status(400).json({ 

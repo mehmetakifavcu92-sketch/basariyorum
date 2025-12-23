@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import { examTemplateService } from '../services/firestore.service';
+import { InstitutionParams, InstitutionWithIdParams, CreateExamTemplateBody, UpdateExamTemplateBody } from '../types';
 
 const router = Router({ mergeParams: true });
 
 // GET /v1/institutions/:institutionId/exams/templates
 router.get('/', async (req, res, next) => {
   try {
-    const { institutionId } = req.params;
+    const { institutionId } = req.params as unknown as InstitutionParams;
     const templates = await examTemplateService.getAll(institutionId);
     res.json({ success: true, data: templates });
   } catch (error) {
@@ -17,7 +18,7 @@ router.get('/', async (req, res, next) => {
 // GET /v1/institutions/:institutionId/exams/templates/:id
 router.get('/:id', async (req, res, next) => {
   try {
-    const { institutionId, id } = req.params;
+    const { institutionId, id } = req.params as unknown as InstitutionWithIdParams;
     const template = await examTemplateService.get(institutionId, id);
     
     if (!template) {
@@ -36,8 +37,8 @@ router.get('/:id', async (req, res, next) => {
 // POST /v1/institutions/:institutionId/exams/templates
 router.post('/', async (req, res, next) => {
   try {
-    const { institutionId } = req.params;
-    const { name, mappings } = req.body;
+    const { institutionId } = req.params as unknown as InstitutionParams;
+    const { name, mappings } = req.body as CreateExamTemplateBody;
     
     if (!name || !mappings || !Array.isArray(mappings)) {
       return res.status(400).json({ 
@@ -60,8 +61,8 @@ router.post('/', async (req, res, next) => {
 // PUT /v1/institutions/:institutionId/exams/templates/:id
 router.put('/:id', async (req, res, next) => {
   try {
-    const { institutionId, id } = req.params;
-    const { name, mappings } = req.body;
+    const { institutionId, id } = req.params as unknown as InstitutionWithIdParams;
+    const { name, mappings } = req.body as UpdateExamTemplateBody;
     
     const template = await examTemplateService.update(institutionId, id, {
       name,
@@ -77,7 +78,7 @@ router.put('/:id', async (req, res, next) => {
 // DELETE /v1/institutions/:institutionId/exams/templates/:id
 router.delete('/:id', async (req, res, next) => {
   try {
-    const { institutionId, id } = req.params;
+    const { institutionId, id } = req.params as unknown as InstitutionWithIdParams;
     await examTemplateService.delete(institutionId, id);
     res.json({ success: true, message: 'Şablon silindi' });
   } catch (error) {

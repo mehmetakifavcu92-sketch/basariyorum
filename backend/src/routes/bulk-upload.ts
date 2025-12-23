@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import multer from 'multer';
 import { bulkUploadService } from '../services/bulk-upload.service';
+import { InstitutionParams, BulkUploadBody } from '../types';
 
 const router = Router({ mergeParams: true });
 const upload = multer({ dest: 'uploads/' });
@@ -8,8 +9,8 @@ const upload = multer({ dest: 'uploads/' });
 // POST /v1/institutions/:institutionId/exams/bulk-upload
 router.post('/', upload.single('file'), async (req, res, next) => {
   try {
-    const { institutionId } = req.params;
-    const { templateId } = req.body;
+    const { institutionId } = req.params as unknown as InstitutionParams;
+    const { templateId } = req.body as BulkUploadBody;
     const file = req.file;
     
     if (!file) {

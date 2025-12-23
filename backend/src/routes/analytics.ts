@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { examResultService } from '../services/firestore.service';
 import { teacherService } from '../services/firestore.service';
+import { InstitutionParams } from '../types';
 
 const router = Router({ mergeParams: true });
 
@@ -8,7 +9,7 @@ const router = Router({ mergeParams: true });
 // Query params: ?subjects=Matematik,Türkçe&teacherId=xxx
 router.get('/', async (req, res, next) => {
   try {
-    const { institutionId } = req.params;
+    const { institutionId } = req.params as unknown as InstitutionParams;
     const { subjects, teacherId } = req.query;
     
     // Teacher bilgisini al (teacherId varsa)
