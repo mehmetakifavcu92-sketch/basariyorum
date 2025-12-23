@@ -1,0 +1,214 @@
+.resultsPage {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.header {
+  margin-bottom: 1rem;
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.header p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.filters {
+  margin-bottom: 1rem;
+}
+
+.filterCard {
+  padding: 1.5rem;
+}
+
+.searchSection {
+  margin-bottom: 1.5rem;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.searchInput:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  outline: none;
+}
+
+.subjectsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.filterLabel {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.subjectsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.subjectChip {
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--border);
+  border-radius: 20px;
+  background: white;
+  color: var(--text-secondary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+}
+
+.subjectChip:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.subjectChip.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.resultsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.resultCard {
+  padding: 1.5rem;
+}
+
+.resultHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.resultHeader h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.studentNumber {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.examInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+.examName {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.examDate {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.scoresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.scoreItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.scoreSubject {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.scoreBar {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.scoreFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+
+.scoreValue {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.resultFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.averageScore {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.averageScore strong {
+  font-size: 1.25rem;
+  color: var(--primary);
+}
+
+@media (max-width: 768px) {
+  .resultHeader {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .examInfo {
+    align-items: flex-start;
+  }
+  
+  .scoresGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
